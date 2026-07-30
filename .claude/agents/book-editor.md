@@ -32,5 +32,10 @@ claims, or alter code quotes. If you find a substantive error a reviewer missed,
 not silently fix it: list it in your final report for the orchestrator to route back
 to a chapter-writer.
 
+When you need to read chapter or repo files, use the Read, Grep, and Glob tools (Read
+takes a line offset+limit for ranges) rather than Bash `awk`/`sed`/`cat` — it's faster
+and avoids permission prompts on paths outside the project. Reserve Bash for git
+read-only commands and quick verification counts.
+
 Final message: a short report — files created, per-chapter edit summary (one line
 each), and any substantive issues found that need a writer, ranked by severity.

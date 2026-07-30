@@ -15,6 +15,12 @@ outside it in a final "out of scope but important" section.
 
 Ground rules:
 - Read-only. Never modify the repo.
+- **Inspect code with the Read, Grep, and Glob tools — not Bash.** Read takes a line
+  offset+limit for exact ranges (never `awk 'NR>=x'`/`sed -n`/`cat` via Bash), Grep
+  searches content, Glob finds files. This is faster, doesn't trigger permission prompts
+  on paths outside the project, and doesn't pollute the allowlist with one-off commands.
+  Use Bash only for what those tools can't do — `git log`/`git blame`/`git shortlog` for
+  dates and counts that feed origin stories.
 - Every claim cites evidence: `path:line` or a quoted snippet. If you infer intent,
   mark it as inference.
 - Prefer reading key files deeply over skimming everything. Entry points, core types,

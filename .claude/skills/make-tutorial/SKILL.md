@@ -22,8 +22,9 @@ agent you spawn.
 ## Phase 0 — Intake
 
 Parse the arguments:
-- `repo-path` (required): the repository to teach. If missing or the path doesn't exist,
-  ask the user for it and stop until you have it.
+- `repo-path` (required): the repository to teach. It may be a **local path** or a
+  **GitHub/remote URL**. If missing (or a local path that doesn't exist), ask the user
+  for it and stop until you have it.
 - `output-dir` (optional): where the book goes. Default: a new directory **inside the
   current working directory** (the maketutorial project folder — never inside the target
   repo). Its final name is a Phase 2 negotiation item, so start with the provisional
@@ -32,6 +33,43 @@ Parse the arguments:
 
 Create the working-notes directory `<output-dir>/_notes/` early; all intermediate
 artifacts (dossier, plan, ledger) live there so the run is inspectable and resumable.
+
+### Where the study repo lives (do this before Phase 1 — it prevents a storm of prompts)
+
+The subject of the book is usually a *different* repo than this project. Every shell
+command that touches an absolute path **outside the project root** triggers a permission
+prompt, so keep the study repo inside the project and tell the tools it's in scope:
+
+1. **Clone remote URLs into a project-local, git-ignored source dir** — not the session
+   scratchpad (whose path changes every run and sits outside the project root). Use a
+   stable path like `<output-dir>/_source/<repo-basename>`:
+   ```
+   git clone --depth 1 <url> <output-dir>/_source/<repo-basename>
+   ```
+   For a local `repo-path`, you may study it in place. If you need dependency/framework
+   source too (to quote framework internals), clone or `pip download`+unpack it under
+   `<output-dir>/_source/` as well.
+2. **Git-ignore the source dir** so it never lands in commits: append `_source/` (and
+   `_notes/` if you don't want it committed) to the project's `.gitignore`.
+3. **Register the study repo as an allowed directory** so reads there don't prompt. Add
+   its absolute path to `permissions.additionalDirectories` in
+   `.claude/settings.local.json` (this is the *directory-scoped* permission lever — far
+   safer than command wildcards; it grants reads in one folder, not arbitrary execution).
+   If a full checkout must stay in the scratchpad instead, add that scratchpad root the
+   same way.
+
+If you truly cannot bring the repo in-scope, fall back to studying it in the scratchpad —
+but expect prompts, and prefer the tool-first convention below to minimize them.
+
+### Code-inspection convention (you and every agent you spawn)
+
+**Read code with the Read / Grep / Glob tools, not with Bash.** The Read tool takes a
+line offset+limit for exact ranges (never `awk 'NR>=x'` or `sed -n`), Grep searches
+content, Glob finds files. This is faster, doesn't prompt on external paths, and — unlike
+per-command `awk`/`grep` invocations — never pollutes the permission allowlist with
+one-off entries. Reserve **Bash** for things the tools genuinely can't do: `git log` /
+`git blame` / `git shortlog` for origin-story numbers and dates, file counts, and the
+`git clone` above. State this convention in the prompt of every agent you spawn.
 
 ## Phase 1 — Survey the repo
 

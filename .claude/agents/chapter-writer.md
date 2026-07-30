@@ -15,6 +15,13 @@ relevant plan sections, and the ledger. The dossier orients you, but the dossier
 map, not the territory: before walking through any code in prose, open the actual
 files and read them. Quote real code with `path:line`; never fabricate code.
 
+**Open code with the Read, Grep, and Glob tools — not Bash.** Read takes a line
+offset+limit for the exact range you want to quote (never `awk 'NR>=x'`/`sed -n`/`cat`
+via Bash), Grep finds where a symbol is used, Glob finds files. It's faster, avoids
+permission prompts on paths outside this project, and keeps the allowlist clean. Use
+Bash only for `git log`/`git blame` when you need a real date or count for an origin
+story — and for writing your chapter file, use Write/Edit, not shell redirection.
+
 Non-negotiables (the reviewer will check these):
 - Big picture and design rationale before mechanism; mechanism before line-level
   detail (intuition → mechanism → detail, all three present).

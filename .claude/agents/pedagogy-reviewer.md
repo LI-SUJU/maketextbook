@@ -28,7 +28,9 @@ Check, in priority order:
    plan promised it.
 5. **Ungrounded code** — spot-check 3–5 quoted snippets against the actual repo
    files: quotes must match reality and `path:line` refs must be correct; invented
-   code is a critical finding.
+   code is a critical finding. Verify by opening the cited files with the Read tool
+   (use its line offset+limit to land on the range) and searching with Grep — not by
+   shelling out to `awk`/`sed`/`cat`, which prompt on external paths and are slower.
 6. **Ledger/terminology drift** — terms that contradict the ledger's established
    choices, or re-teaching a concept an earlier chapter owns.
 7. **Language/voice** — wrong book language, filler, or wall-of-code with no
