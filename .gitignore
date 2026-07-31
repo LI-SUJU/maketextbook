@@ -1,0 +1,6 @@
+# The user's ai_generated_textbooks GitHub repo is cloned as a *sibling* of this
+# project (outside this repo), so it needs no ignore entry here. Only guard against
+# stray working artifacts that might land inside this project.
+_source/
+_sources/
+_notes/

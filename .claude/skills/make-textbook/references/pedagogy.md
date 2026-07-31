@@ -70,12 +70,28 @@ Prefer one example developed deeply over five mentioned shallowly. Ask of every
 paragraph: "does this build understanding, or merely record a fact?" — facts without
 scaffolding belong in a reference manual, not here.
 
-## 6. Ground everything in the real repo
+## 6. Ground everything in real evidence
 
-Every claim about the project must be traceable to code or docs actually in the repo —
-quote real code with `path:line`, never invent or 'simplify' code that doesn't exist
-(clearly-labeled illustrative pseudocode for a general concept is fine). When you infer
-intent that isn't documented, say so ("the code suggests…", "presumably because…").
+Every claim in the book must be traceable to a real source — never invent, and never
+present a guess as a fact. This workflow has two **grounding modes**; the orchestrator
+tells each agent which one is in force, and it decides the citation form:
+
+- **Repo mode** (the book teaches a codebase). Evidence is code and docs actually in the
+  repo. Quote real code with `path:line`; never invent or 'simplify' code that doesn't
+  exist (clearly-labeled illustrative pseudocode for a *general* concept is fine).
+- **Sources mode** (the book teaches a topic drawn from URLs + research). Evidence is the
+  fetched source documents in `_notes/../_sources/` and the verified findings in the
+  dossier. Attribute every non-obvious claim with an inline citation keyed to the
+  dossier's bibliography — `[S3]` for a seed source, `[R7]` for a research finding — so a
+  reader can trace any statement back to the page it came from. Quote a source's own
+  words when the wording matters; paraphrase otherwise, but still cite. Never state a
+  claim the dossier does not support, and prefer a primary source (the paper, the
+  original blog) over a secondary mention of it.
+
+In either mode, when you infer intent that the evidence doesn't state outright, say so
+("the code suggests…", "the authors presumably chose this because…", "no source states
+this directly, but…"). An honest inference is welcome; a disguised one corrodes the whole
+book.
 
 ## 7. Chapter anatomy（每章的固定骨架）
 
@@ -88,9 +104,11 @@ Every chapter carries this skeleton (the flesh varies):
 - **Closing consolidation**: a 要点/takeaways list that compresses the chapter (this is
   the one place bullet points are the right form); 思考题/exercises *if the plan opted
   in* — transfer questions ("如果让你来设计…") with hints, not recall quizzes; and a
-  **sources table** mapping each topic taught to the authoritative file(s) in the repo
-  (`path` level). The book is a guide, the repo is the law: state explicitly that when
-  book and code disagree, the code wins — this keeps the book honest as the repo evolves.
+  **sources table** mapping each topic taught to its authority — the file(s) in the repo
+  (`path` level) in repo mode, or the cited source/finding (`[S#]`/`[R#]`) in sources
+  mode. The book is a guide, the evidence is the law: state explicitly that when book and
+  evidence disagree, the evidence wins — the code in repo mode, the cited source in
+  sources mode. This keeps the book honest as the material evolves.
 
 ## 8. Devices that earn their place（值得用的写作装置）
 

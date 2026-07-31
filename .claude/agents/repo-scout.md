@@ -1,6 +1,6 @@
 ---
 name: repo-scout
-description: Read-only repo analyst for the make-tutorial workflow. Explores one assigned concern of a repository (architecture, domain model, dependencies, tooling, …) and returns a structured dossier section that becomes source material for a textbook. Spawn one per concern, in parallel.
+description: Read-only repo analyst for the make-textbook workflow. Explores one assigned concern of a repository (architecture, domain model, dependencies, tooling, …) and returns a structured dossier section that becomes source material for a textbook. Spawn one per concern, in parallel.
 tools: Bash, Read, Grep, Glob
 model: sonnet
 ---
