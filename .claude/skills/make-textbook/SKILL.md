@@ -119,7 +119,7 @@ surveying, so the destination and its permissions are settled once:
    else the book should go and use that instead.
 3. **Ensure a local working clone** at a **stable path — a sibling of this project**:
    default `<parent-of-project-root>/ai_generated_textbooks/` (i.e. right next to the
-   maketutorial project, its own separate repo, not nested inside it). If that directory
+   maketextbook project, its own separate repo, not nested inside it). If that directory
    isn't already the clone, create it once:
    `gh repo clone <owner>/ai_generated_textbooks <parent>/ai_generated_textbooks`
    (or `git -C <parent>/ai_generated_textbooks pull` if it already exists, to start from the

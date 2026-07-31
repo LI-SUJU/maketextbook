@@ -1,4 +1,4 @@
-# maketutorial
+# maketextbook
 
 Turn a codebase — or a pile of blog posts and papers — into a **textbook**: a real book,
 written in connected prose, that teaches its subject from big-picture design philosophy all
@@ -35,8 +35,8 @@ your own.
 ## Getting started
 
 ```bash
-git clone https://github.com/LI-SUJU/maketutorial.git
-cd maketutorial
+git clone https://github.com/LI-SUJU/maketextbook.git
+cd maketextbook
 claude            # start Claude Code in this folder
 ```
 
