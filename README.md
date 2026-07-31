@@ -69,9 +69,10 @@ numbered menu of what you can do and exactly how to reply.
    one theme, that becomes the book's spine. If they split into unrelated topics, you're
    shown a table of *which URL belongs to which topic* and asked which one to build — it
    won't silently mash unrelated things into one book.
-3. **You shape the book.** During planning you choose its **size** (Primer → Comprehensive)
-   and **structure** (progressive-depth, thematic parts, problem-driven, or
-   source/component-anchored), the language, the audience, and the depth.
+3. **You shape the book.** During planning you choose its **size** (Primer → Comprehensive),
+   its **detail level** (精简/concise for a fast readable pass, or 详细/detailed for the full
+   deep treatment), and its **structure** (progressive-depth, thematic parts, problem-driven,
+   or source/component-anchored), plus the language and audience.
 4. **You approve the plan.** Nothing is written until you say go — push back over as many
    rounds as you like. The plan (and all research notes) are saved to disk, so you can stop
    and resume later.
@@ -104,7 +105,9 @@ how the subject is first surveyed. Each stage is handled by a dedicated agent (s
   always taught before it's used); each chapter is checked by an adversarial
   `pedagogy-reviewer` and revised until it passes. Everything is grounded in real evidence
   — repo mode quotes code with `path:line`; sources mode cites `[S#]`/`[R#]` keyed to the
-  bibliography — never invented.
+  bibliography — never invented. In parallel, `figure-ingest` agents download the useful
+  figures the plan called for into `assets/figures/`, and writers place them (or draw their
+  own) where they build understanding.
 - **Assemble.** A `book-editor` unifies terminology, adds cross-references, and builds the
   preface, table of contents, glossary, and (sources mode) a `references.md` bibliography.
 
@@ -124,33 +127,61 @@ and is enforced by the reviewer agent:
 
 ## Customization
 
-- **Size & structure** are chosen interactively each run — from a short primer to a
-  comprehensive treatment, in whichever structural shape fits the material.
+- **Size, detail & structure** are chosen interactively each run — from a short primer to a
+  comprehensive treatment, at concise or detailed depth, in whichever structural shape fits
+  the material. Size is *breadth* (how many chapters); detail is *depth per chapter* — they
+  vary independently.
+- **Start concise, deepen later.** Ask for a **精简版** to get a fast, readable book you can
+  skim, then later say "make it detailed" (or "go deeper on chapter 5") — because every book
+  keeps its research notes (`_notes/`) and cached sources, the deepen pass reuses them and
+  grows the chapters in place instead of starting over.
 - **Faithful vs. researched (sources mode).** By default the book expands beyond your URLs
   with cited web research to cover prerequisites and gaps. Ask to *stay faithful to the
   supplied URLs only* for a tighter survey of exactly what you provided.
+- **Clickable citations.** Every external source is cited as a clickable link — inline
+  `[S3]` keys link to the source, and the `references.md` bibliography lists each as a
+  linked title — so a reader can always click through to the original.
+- **Figures, not just text.** The book draws its own diagrams (Mermaid/ASCII/tables) and
+  pulls in genuinely useful real images — architecture diagrams from the studied repo,
+  openly-published figures, plots — downloading them into the book's `assets/figures/` and
+  embedding them locally with a source line. A dedicated agent fetches and actually *looks
+  at* each image before captioning it. Figures locked in PDFs, or better drawn fresh, are
+  redrawn as diagrams or linked in prose.
 - **Install it everywhere.** To use the skill in any project (not just this folder), copy
   `.claude/skills/make-textbook/` and `.claude/skills/mt/` into `~/.claude/skills/`, and the
-  six agent files from `.claude/agents/` into `~/.claude/agents/`.
+  seven agent files from `.claude/agents/` into `~/.claude/agents/`. To keep runs prompt-free
+  there too, merge the `permissions.allow` list from `.claude/settings.json` into your
+  `~/.claude/settings.json`.
 
 ## Layout
 
 ```
+CLAUDE.md                    # auto-loaded guide: run the skill on "make-textbook", allowed tools
 .claude/
+  settings.json             # committed: git/gh/find/WebSearch pre-approved, output dir registered
   skills/
     make-textbook/
-      SKILL.md               # the orchestration workflow (both modes)
+      SKILL.md               # the orchestration workflow (both modes + Phase E deepen)
       references/pedagogy.md # the writing contract all agents follow
     mt/SKILL.md              # short alias for /make-textbook
   agents/
     repo-scout.md            # repo mode: read-only repo analyst (parallel)
     source-ingest.md         # sources mode: fetch + classify + cache one URL (parallel)
     researcher.md            # sources mode: verified web research on one sub-question
-    chapter-writer.md        # writes/revises one chapter (either grounding mode)
+    figure-ingest.md         # download + verify one useful figure into assets/ (parallel)
+    chapter-writer.md        # writes/revises/deepens one chapter (either grounding mode)
     pedagogy-reviewer.md     # adversarial check against the writing contract
     book-editor.md           # final whole-book consistency pass
 understanding-evoscientist/  # an example book produced by this skill
 ```
 
+`.claude/settings.json` pre-approves the handful of git/gh/find/WebSearch commands the
+workflow uses and registers the sibling output repo, so a run doesn't stop to ask for each
+one; `CLAUDE.md` documents that same allow-list and tells any session to invoke the skill
+when you ask for a book. Machine- and book-specific grants (the WebFetch domains a run
+accumulates, a local study-repo path) go in an un-committed `.claude/settings.local.json`.
+
 Each generated book keeps its working artifacts (`_notes/`, and `_sources/` in sources
 mode) alongside the chapters — keep them to make future revisions cheap, or delete them.
+Downloaded figures live in `assets/figures/` (with an `assets/CREDITS.md` naming each one's
+source) and are committed as part of the book, so the chapters' image links resolve.

@@ -22,11 +22,25 @@ Read every chapter in order, then:
 4. **`glossary.md`** — compile every first-occurrence definition: term, definition,
    chapter of introduction. Alphabetical (or pinyin) order.
 4b. **`references.md` (sources mode only)** — compile the full bibliography from the
-   dossier: every `[S#]` seed source (title, author/venue, date, and its `_sources/` cache
-   path) and every `[R#]` research source (title + URL). Then verify citation integrity:
-   scan every chapter for `[S#]`/`[R#]` keys and confirm each resolves to an entry — a
-   dangling key is a substantive issue you report (don't silently drop it). List the
-   references in key order. In repo mode, skip this step entirely.
+   dossier as **clickable entries**: for each source, the title itself is the link, e.g.
+   `[S3] [Paper title](https://…) — author/venue, date` (seed `[S#]` also noting its
+   `_sources/` cache path; research `[R#]` its URL). Order by key. Then verify citation
+   integrity on two axes: (a) scan every chapter for `[S#]`/`[R#]` keys and confirm each
+   resolves to an entry — a dangling key is a substantive issue you report (don't silently
+   drop it); and (b) confirm inline keys are rendered as clickable links (`[[S3]](url)`)
+   wherever the source has a URL — where a chapter left a bare key but the bibliography has a
+   URL for it, Edit it into the clickable form (this is formatting, not a claim change, so
+   it's within your remit). A source with genuinely no URL stays a bare key. In repo mode,
+   skip this step entirely.
+4c. **Figures** — audit every figure across the book. Each embedded image
+   (`![](assets/figures/…)`) must point at a file that actually exists in `assets/figures/`,
+   carry non-empty alt text, sit under a caption with a source line, and be referenced from
+   the prose (flag floating figures and orphan image files with no reference). Check figure
+   numbering is consistent within each chapter. Confirm `assets/CREDITS.md` exists and lists
+   every reused image with its source; in sources mode, make sure reused figures are also
+   credited in `references.md`. A broken image path or a missing attribution is a substantive
+   issue — fix formatting yourself (a wrong relative path, a missing caption line), but report
+   a genuinely missing file for the orchestrator to route back.
 5. **Preface + `README.md`** — README carries: book title, one-paragraph pitch, the
    2–3 named reading routes from the plan (e.g. ten-minute overview / case-first /
    cover-to-cover, each saying which chapters and why), and a linked table of

@@ -73,6 +73,11 @@ Parse the arguments. The **first positional argument suggests the mode**:
   (host github.com / gitlab.com / bitbucket.org, or a `*.git` URL) → **repo mode**.
 - **One or more `http(s)` URLs** pointing at articles/papers/blog posts/docs (content to
   read, not a repo to clone) → **sources mode**. Collect *all* the URL arguments.
+- **A path to an already-generated book** (a directory containing `_notes/plan.md`), **or a
+  request to expand / deepen / 出一个更详细的版本 of a book made earlier** → **deepen mode →
+  Phase E**. Here there is no new subject to survey: the earlier run's dossier, plan, ledger
+  and cached `_sources/` are reused to grow the existing book (typically 精简 → 详细). If the
+  user just names a book by title, locate its directory under `$BOOKS/` and confirm.
 
 Then **state what you're about to do and ask the user to confirm** — one short message, no
 work yet. Name the subject concretely so a wrong guess is caught immediately:
@@ -158,12 +163,17 @@ Configure them **once in Phase 0** rather than discovering prompts mid-run:
   `gh repo`/`gh api` are the only shell commands this workflow needs; they're pre-approved
   in this project's settings. If a needed one prompts (e.g. `git commit` on a fresh
   machine), add the specific form to `permissions.allow` rather than a broad `Bash(git *)`.
+- **Figure downloads** — the `figure-ingest` agent downloads useful images with `curl -L`
+  (WebFetch can't return binaries). `Bash(curl -L *)` is pre-approved in this project's
+  settings; the agent uses it only to fetch page HTML and image files for figures the plan
+  called for.
 
 Everything else the workflow builds from is cached where it's cited from: source text under
 `$BOOKS/<book-slug>/_sources/NN-slug.md`, notes under `_notes/`. The book dir's own
 `.gitignore` (written in Phase 4) keeps `_source/` and `_sources/` out of the *published*
 book — cached third-party text and cloned code shouldn't be republished — while `_notes/`
-(plan, dossier) may be kept.
+(plan, dossier, figure manifest) may be kept and **`assets/` is committed** (the downloaded
+figures are part of the book, referenced by relative path from the chapters).
 
 ### Code / source-inspection convention (you and every agent you spawn)
 
@@ -199,6 +209,11 @@ Goal: a **repo dossier** — the raw material the book plan is built from.
    by checking the code yourself. The dossier must include a **concept inventory**: every
    non-obvious concept, tool, term, or technique the repo relies on, each marked "reader
    likely knows / must be taught".
+4. Start `<output-dir>/_notes/figures.md`, the **figure manifest**, from any candidate
+   figures the scouts flagged — images the repo already ships (`docs/*.png`, architecture
+   diagrams, screenshots) that would help a reader. One row each: `F<N> | description | source
+   (repo path or URL) | target chapter (TBD) | decision (embed / redraw / text-link, TBD) |
+   status`. This is provisional; the plan (Phase 2) decides which figures actually make it in.
 
 Then go to Phase 2. (The dossier's grounding mode is **repo**.)
 
@@ -271,6 +286,11 @@ worked examples that make the topic teachable. So:
    path) and every `[R#]` research source (with its URL and title). This bibliography is
    what chapters cite and what the book's References section is built from. Flag any claim
    that survived only one source as "single-source — treat with care".
+5. Start `<output-dir>/_notes/figures.md`, the **figure manifest**, from the candidate
+   figures the ingest and researcher agents flagged — useful diagrams/plots in a seed source
+   or found in research (Wikimedia and open docs are good wells). One row each: `F<N> |
+   description | source (page or image URL) | target chapter (TBD) | decision (embed / redraw
+   / text-link, TBD) | status`. Provisional; the plan (Phase 2) decides which make it in.
 
 Then go to Phase 2. (The dossier's grounding mode is **sources**.)
 
@@ -295,9 +315,9 @@ Draft `<output-dir>/_notes/plan.md` containing:
 7. **Depth calibration** — which areas get detailed walkthroughs (line-level code in repo
    mode; close reading of a source's argument/derivation in sources mode) vs. an
    architectural/overview treatment, and why.
-8. **Size** and **structure** — see the two negotiation levers below; record the chosen
-   preset and structural pattern here with the resulting chapter count and rough per-chapter
-   length.
+8. **Size**, **detail level**, and **structure** — see the three negotiation levers below;
+   record the chosen size preset, detail level (`concise` / 精简 or `detailed` / 详细), and
+   structural pattern here with the resulting chapter count and rough per-chapter length.
 9. **Book title and output directory name** — propose both (directory name short and
    kebab-case, e.g. `understanding-<topic>/`); the user decides. Rename the provisional
    directory once settled.
@@ -308,11 +328,22 @@ Draft `<output-dir>/_notes/plan.md` containing:
     sources mode); whether chapters carry exercises (思考题); and the 2–3 named reading
     routes the README will offer. See "Devices that earn their place" in the pedagogy
     contract.
+11. **Figures** — from the `_notes/figures.md` manifest, decide which candidate figures
+    actually earn a place and assign each to a chapter, marking its **decision**: `embed`
+    (download the real image into `assets/figures/` and place it, with source attribution),
+    `redraw` (an original Mermaid/ASCII diagram of the idea — often clearer, and the right
+    call for figures locked in a PDF), or `text-link` (describe it in prose with a link to
+    the original). Prefer drawing our own where a concept can be drawn cleanly; reuse real
+    images where seeing the actual thing matters. The `embed` rows become the figure-ingest
+    work list at the start of Phase 3.
 
-### The two user levers: size and structure
+### The three user levers: size, detail level, and structure
 
-The user explicitly chooses **how big** the book is and **how it's structured**. Present
-both with `AskUserQuestion` (offer the presets below; "Other" lets them specify exactly):
+The user explicitly chooses **how big** the book is, **how deep** each chapter goes, and
+**how it's structured**. Present them with `AskUserQuestion` (offer the presets below;
+"Other" lets them specify exactly). Size and detail are independent axes — size is *breadth*
+(how much of the subject, how many chapters), detail is *depth per chapter* (how far each
+chapter drills down); a book can be broad-but-concise or narrow-but-deep.
 
 **Size** (calibrate chapter count and per-chapter length; scales research effort in
 sources mode too):
@@ -320,6 +351,20 @@ sources mode too):
 - **Standard** — ~6–9 chapters, ~3–5k words each. A proper textbook. *(default)*
 - **Comprehensive** — ~10–16 chapters, ~4–6k words each. Full, exhaustive treatment.
 - **Custom** — the user names a chapter count and/or total length.
+
+**Detail level (详略)** — how deeply each chapter drills, independent of how many chapters:
+- **精简 / Concise** — a fast, readable first pass: the full narrative and every idea, but
+  trimmed line-level walkthroughs and sparing use of the optional writing devices. Aims at
+  the low end of the size preset's word range. *Explicitly resumable:* because the dossier,
+  plan, ledger and cached sources are retained, a concise book can later be **deepened**
+  into a detailed one without re-surveying or re-researching (see Phase E).
+- **详细 / Detailed** — the full pedagogy contract: rich three-layer treatment, line-level
+  code/close-reading walkthroughs, and origin-story / tension / four-beat devices wherever
+  the material earns them. *(default)*
+
+Offer concise as the low-commitment on-ramp: "want a **精简版** first — a quick readable book
+you can skim, and I can expand any part or the whole thing into a detailed version later? Or
+go **详细** straight away?" Record the choice; it is passed to every `chapter-writer`.
 
 **Structure** (the organizing principle of the chapter sequence):
 - **Progressive depth** — foundations → mechanisms → advanced/edge, each layer building on
@@ -332,7 +377,8 @@ sources mode too):
   major subsystem (repo mode), synthesized rather than summarized. Best for a survey feel
   or a repo with cleanly separable subsystems.
 
-Record the chosen size and structure in `plan.md` and let them shape the chapter list.
+Record the chosen size, detail level, and structure in `plan.md` and let them shape the
+chapter list and per-chapter depth.
 
 Then present the plan to the user **in the conversation** (summarize it readably; don't
 just say "see the file") and negotiate:
@@ -352,21 +398,36 @@ Initialize `<output-dir>/_notes/ledger.md`: a running record of, per completed c
 (c) a 3–5 sentence summary. This is how later chapters stay consistent with earlier ones
 and avoid re-explaining or, worse, using an unintroduced term.
 
+**Fetch the figures first.** Create `<output-dir>/assets/figures/` and, for every figure the
+plan marked `embed`, spawn a `figure-ingest` agent — in parallel, one per figure — giving it
+the figure id, its description and source, the `assets/figures/` path, and the `figures.md` +
+`assets/CREDITS.md` paths. Each downloads the real image, looks at it to confirm it matches,
+and records its source. Collect the returned figure cards (saved path, alt text, caption,
+source) — these are what chapter-writers use to place the figures. If an ingest reports a
+figure couldn't be fetched, flip that figure's `figures.md` decision to `redraw` or
+`text-link` so the writer handles it without a broken reference. (`redraw`/`text-link`
+figures need no ingest — the chapter-writer draws or links them directly.)
+
 Compute writing **waves** from the concept-dependency order in the plan: a chapter may be
 written once every chapter it depends on is written. Within a wave, spawn `chapter-writer`
 agents in parallel (single message); between waves, update the ledger from each writer's
 returned ledger entries before starting the next wave.
 
 Each `chapter-writer` gets: the pedagogy guide path, the **grounding mode** (`repo` or
-`sources`), the dossier path, the plan path, the current ledger path, its chapter brief
-(copied inline from the plan), the output file path (`<output-dir>/NN-slug.md`), and —
-per mode — the **repo path** (repo mode) or the **`_sources/` directory + dossier
-bibliography** (sources mode). Writers ground every claim in real evidence: repo mode
-quotes code with `path:line`; sources mode cites `[S#]`/`[R#]` keyed to the bibliography.
-Neither invents.
+`sources`), the **detail level** (`concise` / 精简 or `detailed` / 详细, from the plan), the
+dossier path, the plan path, the current ledger path, its chapter brief (copied inline from
+the plan), the output file path (`<output-dir>/NN-slug.md`), **its chapter's figures** (the
+relevant `figures.md` rows plus the matching figure cards — saved path, alt text, caption,
+source — for `embed` figures already fetched), and — per mode — the **repo path** (repo mode)
+or the **`_sources/` directory + dossier bibliography** (sources mode).
+Writers ground every claim in real evidence: repo mode quotes code with `path:line`; sources
+mode cites `[S#]`/`[R#]` keyed to the bibliography, rendered as clickable `[[S#]](url)`
+links. Neither invents.
 
 After each chapter is written, run a `pedagogy-reviewer` agent on it (told the same
-grounding mode, so it spot-checks the right kind of evidence). The reviewer returns a
+grounding mode *and* detail level, so it spot-checks the right kind of evidence and
+calibrates its depth checks — it must not fail a deliberately `concise` chapter for lacking
+exhaustive walkthroughs). The reviewer returns a
 findings list (violations of the pedagogy contract). If there are findings, send the
 chapter back to a `chapter-writer` in revise mode with the findings. One review→revise
 round per chapter by default; escalate to the user only if a chapter fails review twice.
@@ -384,10 +445,15 @@ mode) to:
   dossier (`[S#]` seed sources with `_sources/` paths, `[R#]` research sources with URLs),
   and verify that every `[S#]`/`[R#]` cited in a chapter resolves to an entry;
 - enforce terminology consistency and add cross-references ("as we saw in Chapter 3…");
-- smooth chapter transitions so the book reads as one narrative, not stapled essays.
+- smooth chapter transitions so the book reads as one narrative, not stapled essays;
+- verify **figures**: every embedded `![](assets/figures/…)` points at a file that exists,
+  carries alt text and a source line, and is referenced from the prose (no floating figures
+  or orphan image files); figure numbers run consistently; `assets/CREDITS.md` lists every
+  reused image; and reused figures are also credited in `references.md` (sources mode).
 
 Then verify yourself: every chapter file exists, TOC links resolve, no chapter still
-contains reviewer TODO markers, and (sources mode) no dangling citation keys.
+contains reviewer TODO markers, no embedded image path is broken, and (sources mode) no
+dangling citation keys.
 
 ### Publish to `ai_generated_textbooks`
 
@@ -396,8 +462,10 @@ The book lives in `$BOOKS/<book-slug>/` inside the local clone of the user's
 
 1. **Write the book's `.gitignore`** (if not already present) at `$BOOKS/<book-slug>/`
    ignoring `_source/` and `_sources/` — cloned third-party code and cached article text
-   should not be republished. Keep `_notes/` unless the user says otherwise (the plan and
-   dossier make future revisions cheap and contain no third-party full text).
+   should not be republished. Do **not** ignore `assets/` — the downloaded figures are part
+   of the book and must be committed so the chapters' relative image links resolve. Keep
+   `_notes/` unless the user says otherwise (the plan, dossier, and figure manifest make
+   future revisions cheap and contain no third-party full text).
 2. **Commit** inside the clone, operating on it by path so no `cd` is needed:
    `git -C $BOOKS add <book-slug>` then
    `git -C $BOOKS commit -m "Add <book title> (<repo|N sources>)"`.
@@ -408,8 +476,47 @@ The book lives in `$BOOKS/<book-slug>/` inside the local clone of the user's
    ask on later runs.
 
 Finally, tell the user where the book is (the repo, the directory, and the pushed
-commit/URL if pushed), its final structure, and that `_notes/` can be deleted or kept for
-future revisions.
+commit/URL if pushed) and its final structure. Then note the two forward paths the retained
+artifacts unlock — keep `_notes/` (and, uncommitted, `_sources/`) to make these cheap:
+- if the book was written **concise (精简)**, offer to **deepen it** — the whole book or just
+  the chapters they found too thin — into a detailed version, reusing the existing research
+  (Phase E); a one-liner like "读完之后想要更详细的版本，随时说，我会基于已有的研究把它加深" is enough.
+- either way, `_notes/` can be deleted if they want a clean publish, but deleting it means a
+  future deepen/revise re-does the survey or research.
+
+## Phase E — Deepen an existing book (精简 → 详细, or expand coverage)
+
+Entered when the user wants **more** from a book an earlier run produced — most often "the
+精简版 was good, now make it detailed", but also "go deeper on chapter 5" or "add a chapter
+on X". The whole point is **reuse**: the expensive survey/research already happened and lives
+in `_notes/`, so you do not redo it.
+
+1. **Locate the book and its artifacts.** Find the book directory (from the path/title the
+   user gave, or under `$BOOKS/`). Read `_notes/plan.md`, `_notes/dossier.md`,
+   `_notes/ledger.md`, and (sources mode) the cached `_sources/`. If `_notes/` is missing
+   (deleted after publish), you cannot cheaply deepen — tell the user the research artifacts
+   are gone and offer to re-run the relevant survey/research phase to rebuild them first.
+2. **Confirm the ask and scope.** State what you'll change and get approval — this is a
+   smaller gate than Phase 2 but still a gate. Typical scopes: (a) **whole-book deepen** —
+   every chapter concise → detailed; (b) **selective deepen** — only named chapters; (c)
+   **new chapters** — extend coverage (this may need a little targeted research: spawn
+   `researcher`/`repo-scout` for just the new material and merge into the existing dossier,
+   not a full re-survey). Update `plan.md`'s detail-level field to `detailed` for the
+   affected chapters.
+3. **Deepen the chapters.** For each chapter in scope, spawn a `chapter-writer` in **Deepen
+   mode** (grow the existing file in place, preserving structure/terminology/citations),
+   giving it the same inputs as Phase 3 plus the existing chapter path. If deepening calls
+   for new `embed` figures, run `figure-ingest` for them first (as in Phase 3) so the writer
+   has the images in hand. Respect ledger order:
+   a chapter is deepened against the current ledger, and its updated ledger entry feeds the
+   next. Run `pedagogy-reviewer` on each deepened chapter as in Phase 3.
+4. **Re-assemble and republish.** Re-run the `book-editor` pass (terminology, cross-refs,
+   glossary and — sources mode — `references.md` and clickable-citation integrity now that
+   chapters have grown), then commit and push as in Phase 4 with a message naming the change
+   (e.g. "Deepen <book title>: 精简 → 详细").
+
+Everything else — grounding mode, citation rules, permission setup — is unchanged from the
+original run; only the depth increases.
 
 ## Failure handling
 

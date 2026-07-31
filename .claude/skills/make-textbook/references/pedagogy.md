@@ -83,10 +83,33 @@ tells each agent which one is in force, and it decides the citation form:
   fetched source documents in `_notes/../_sources/` and the verified findings in the
   dossier. Attribute every non-obvious claim with an inline citation keyed to the
   dossier's bibliography — `[S3]` for a seed source, `[R7]` for a research finding — so a
-  reader can trace any statement back to the page it came from. Quote a source's own
-  words when the wording matters; paraphrase otherwise, but still cite. Never state a
-  claim the dossier does not support, and prefer a primary source (the paper, the
-  original blog) over a secondary mention of it.
+  reader can trace any statement back to the page it came from. **Make every citation
+  clickable** (see "Clickable citations" below): if the source has a URL, the inline key
+  links to it. Quote a source's own words when the wording matters; paraphrase otherwise,
+  but still cite. Never state a claim the dossier does not support, and prefer a primary
+  source (the paper, the original blog) over a secondary mention of it.
+
+### Clickable citations（引用即链接）
+
+External sources are for *following*, not just for crediting — a reader who wants the
+original should be one click away. So citations are rendered as real Markdown links, never
+bare brackets:
+
+- **Inline, sources mode.** Write each key as a link to the source's URL:
+  `[[S3]](https://the-source-url)` renders as a clickable `[S3]`. `[R7]` links to that
+  research source's URL the same way. If a source genuinely has no URL (e.g. text the user
+  pasted, or a paywalled item with no stable landing page), leave the key bare (`[S3]`) — it
+  still resolves in the References section, which is the one place that must list every key.
+  The dossier bibliography carries the exact URL for every `[S#]`/`[R#]`; use it verbatim, do
+  not reconstruct URLs from memory.
+- **The References section** (`references.md`, built by the editor) lists every source as a
+  clickable entry — the title itself is the link: `[S3] [Paper title](https://…) — author,
+  venue, date`. This is the canonical, always-present target, so even a bare inline key
+  leads the reader somewhere.
+- **Repo mode.** The primary reference stays `path:line` (the code is the authority). When
+  the repo has a known public host, you *may* additionally link a quote to its blob URL
+  (`[src/app.py:42](https://github.com/org/repo/blob/<sha>/src/app.py#L42)`); keep the bare
+  `path:line` as the visible anchor so the reference survives even without the link.
 
 In either mode, when you infer intent that the evidence doesn't state outright, say so
 ("the code suggests…", "the authors presumably chose this because…", "no source states
@@ -105,8 +128,9 @@ Every chapter carries this skeleton (the flesh varies):
   the one place bullet points are the right form); 思考题/exercises *if the plan opted
   in* — transfer questions ("如果让你来设计…") with hints, not recall quizzes; and a
   **sources table** mapping each topic taught to its authority — the file(s) in the repo
-  (`path` level) in repo mode, or the cited source/finding (`[S#]`/`[R#]`) in sources
-  mode. The book is a guide, the evidence is the law: state explicitly that when book and
+  (`path` level) in repo mode, or the cited source/finding (`[S#]`/`[R#]`, rendered as the
+  clickable links defined above) in sources mode. The book is a guide, the evidence is the
+  law: state explicitly that when book and
   evidence disagree, the evidence wins — the code in repo mode, the cited source in
   sources mode. This keeps the book honest as the material evolves.
 
@@ -138,6 +162,53 @@ Use these where the material supports them; never fake the material to use the d
   real feature/request/PR end-to-end through every mechanism the book taught, with
   「🔍 机制回看」callback boxes linking each scene to the chapter that owns it. It
   converts ten chapters of parts into one running machine.
+
+## 9. Figures and images（图表）
+
+A figure is worth its space only when it *builds understanding faster than prose would* — a
+structure, a flow, a comparison the eye grasps at once. Decorative images earn nothing; a
+chapter with no good figure is better than one padded with a stock illustration. Ask of every
+figure the same question as every paragraph: does this teach?
+
+There are three kinds of figure, in rough order of preference:
+
+1. **Drawn by us** — Mermaid (flowchart, sequence, state, ER, class…) or ASCII where
+   structure or flow matters, and Markdown tables for enumerable/comparative data. These are
+   the backbone: text, versioned, consistent with the book's visual language, and rendered
+   natively on GitHub. When a concept can be drawn cleanly, **draw it** rather than hunting
+   for someone else's picture — an original diagram is usually clearer and always fits.
+2. **Reused from a real source** — a genuinely useful figure from the studied repo, a seed
+   source, or web research (Wikimedia and openly-published docs are rich wells). The policy
+   is simple: **if it's key and useful, the workflow downloads it into the book's
+   `assets/figures/` and embeds it locally, and you always attribute its source.** (The book
+   is for the user's own use in a private repo, so there is no licensing gate to apply here —
+   but attribution is not optional: every reused figure names where it came from.)
+3. **A source's figure we cannot or should not reproduce** — when a figure lives only inside
+   a PDF we can't extract, or a redraw would simply be clearer: **redraw the idea** as an
+   original Mermaid/ASCII diagram, or describe it in prose with a link to the original
+   ("作者用一张时序图展示了…（见原文 [Figure 3](url)）"). Never fabricate an image, and never
+   describe a figure you (or the figure-ingest agent) did not actually look at.
+
+**How figures appear on the page.** Markdown has no native `figure`/`caption`, so use this
+portable convention, every time:
+
+- Embed a local image with alt text and a caption line beneath it:
+
+      ![alt text describing the image](assets/figures/F3-arch.png)
+      *图 3-1：<what it shows / what it teaches>。来源：[<author or site>](url)*
+
+- **Alt text is mandatory** — it serves screen readers and shows when an image fails to load.
+- **Every figure carries a source line** (author/site + link for reused figures; "原创图" for
+  ones we drew). Reused figures are also listed in `assets/CREDITS.md` and the References
+  section.
+- **Number figures `图 章-序`** (or `Figure N-M`) and **reference every figure from the prose**
+  — "如图 3-1 所示…". A figure the text never points at is floating; either wire it in or cut
+  it. Prefer local embeds (`assets/…`) over hot-linked remote URLs so the book survives
+  offline and PDF export.
+
+Everything a figure asserts must be traceable the same way any other claim is (§6): its
+source is its authority, and when a reused figure and the current code/source disagree, the
+evidence wins.
 
 ## Voice
 

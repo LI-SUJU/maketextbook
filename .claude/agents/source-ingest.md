@@ -72,6 +72,14 @@ Your final message IS the card — return this markdown directly, no preamble:
     ones it *introduces* — each with a one-line meaning. These feed the book's concept
     inventory and the "must be taught before use" decisions.
 
+    ### Candidate figures
+    Any figure in this source that would genuinely help a reader understand the topic — a
+    diagram, a plot, a schematic. For each: a one-line description of what it shows, and its
+    location (a direct image URL if the page exposes one, otherwise the page URL plus enough
+    to identify which figure, e.g. "Figure 3"). Only list figures that *build understanding*;
+    skip decoration. If none, say "none". (These feed the book's figure manifest; the
+    workflow later downloads the useful ones.)
+
     ### Relation hooks
     Anything that signals how this source might relate to others in the set: shared
     methods, a debate it takes a side in, a technique it builds on, the field it sits in.

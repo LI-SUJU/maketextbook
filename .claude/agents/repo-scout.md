@@ -49,6 +49,13 @@ Concrete material a chapter author would love: a small self-contained code path 
 illustrates the whole design, a surprising decision worth discussing, a good "follow
 one request through the system" trace, a file that makes a great worked example.
 
+## Candidate figures
+Any image the repo already ships that would genuinely help a reader — an architecture
+diagram, a flow chart, a screenshot, a `docs/*.png`, or a diagram-as-code source (Mermaid,
+`.dot`, PlantUML). For each: a one-line description of what it shows, its `path` in the repo,
+and the concern/chapter it would support. Only list figures that *build understanding* — skip
+logos, badges, and decoration. If none, say "none".
+
 ## Out of scope but important
 Anything critical you stumbled on outside your assigned concern (or "none").
 

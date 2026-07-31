@@ -3,8 +3,32 @@
     "allow": [
       "Bash(git clone *)",
       "Bash(git fetch *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git pull *)",
+      "Bash(git mv *)",
+      "Bash(git -C *)",
+      "Bash(git log *)",
+      "Bash(git blame *)",
+      "Bash(git shortlog *)",
+      "Bash(git checkout *)",
+      "Bash(git branch *)",
+      "Bash(git merge *)",
+      "Bash(git remote *)",
+      "Bash(git worktree list)",
       "Bash(git worktree list *)",
-      "Bash(git worktree list)"
+      "Bash(gh auth *)",
+      "Bash(gh repo *)",
+      "Bash(gh pr *)",
+      "Bash(gh api *)",
+      "Bash(find *)",
+      "Bash(curl -L *)",
+      "WebSearch"
+    ],
+    "additionalDirectories": [
+      "../ai_generated_textbooks"
     ]
   }
 }

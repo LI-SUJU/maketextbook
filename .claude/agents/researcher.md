@@ -55,6 +55,13 @@ Return your final message as this markdown block, no preamble:
     ### Sources
     - `[R<N>]` <title> — <url> — <one line on what it is and why it's trustworthy>
 
+    ### Candidate figures
+    Any figure that would help a reader *see* your answer — a diagram, plot, or schematic
+    you came across. Note especially openly-published images (Wikimedia Commons, official
+    docs, public-domain sources) since those are the easiest to reuse well. For each: a
+    one-line description of what it shows and a direct image URL (or the page URL + which
+    figure). Only figures that build understanding; skip decoration. If none, say "none".
+
     ### Adjacent findings
     Anything important you found outside your sub-question (or "none").
 
