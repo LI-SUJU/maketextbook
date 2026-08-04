@@ -25,7 +25,11 @@
       "Bash(gh api *)",
       "Bash(find *)",
       "Bash(curl -L *)",
-      "WebSearch"
+      "Bash(curl -sL *)",
+      "Bash(curl -s *)",
+      "Bash(curl -fsSL *)",
+      "WebSearch",
+      "WebFetch"
     ],
     "additionalDirectories": [
       "../ai_generated_textbooks"
