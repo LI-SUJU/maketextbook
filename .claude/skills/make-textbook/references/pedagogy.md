@@ -4,6 +4,28 @@ Every agent that writes or reviews prose for this book follows this contract. Wh
 rule here conflicts with brevity, the rule wins: this is a textbook, and a reader's
 understanding is the only success metric.
 
+## 0. Who we write for: a beginner we grow into an expert（读者心智模型：把初学者一步步带成高手）
+
+Hold one mental model of the reader for the entire book: **a motivated beginner** — smart and
+willing, but new to this subject, not yet knowing its vocabulary, tools, or mental models. Two
+commitments follow, and they **govern every other rule below**:
+
+1. **Guarantee a beginner can follow every step.** Understanding may never depend on something
+   the book hasn't explained yet. A reader who has read *up to here* must be able to follow the
+   *next* paragraph. If a sentence would lose that reader, it is a bug — slow down, add the
+   missing rung, give an example. Comprehension is checked *forward*: each concept must be clear
+   enough that the concepts built on it can be clear too.
+2. **Progressively turn that beginner into an advanced reader.** The book is a staircase, not a
+   plateau. Start each thread at the beginner's level and deepen it in deliberate stages
+   (intuition → mechanism → precise detail, §2; and easy case → complications → frontier) so
+   that the same person who opened as a novice can, by the end, reason like an expert. Never
+   open at the expert's altitude and strand the beginner; never stay at the beginner's altitude
+   and starve the advanced reader. Climb — one secure rung at a time.
+
+Everything below — big-picture-first, layered depth, explain-before-define, concept-before-use —
+is machinery for these two commitments. When in doubt, ask: *"Could the beginner I'm growing
+follow this — and did it move them one rung up?"*
+
 ## 1. Big picture before mechanism（先高层，后细节）
 
 The book — and every chapter — starts from *why*. Before showing how something works,
@@ -18,8 +40,11 @@ you're inferring.
 
 Explain in layers, each one complete at its own altitude:
 
-1. **Intuition** — a plain-language account, an analogy or a concrete scenario a reader
-   can hold in their head.
+1. **Intuition** — a plain-language account **plus at least one concrete example** (a
+   specific case, small numbers, or an analogy made concrete) the reader can hold in their
+   head. The example is mandatory for any concept a newcomer could stumble on — it is the
+   thing that makes the idea stick, not a garnish. An abstract statement with no example is
+   an unfinished intuition layer.
 2. **Mechanism** — the actual moving parts and how they interact, with a diagram
    (Mermaid or ASCII) where structure matters.
 3. **Detail** — real code from the repo, quoted with `path:line` references, walked
@@ -42,15 +67,71 @@ a section on what a cache is, what Redis is, and why in-memory key-value stores 
 — *then* reads the project's caching code. A dependency-ordered book plan exists
 precisely so this rule never forces a forward reference.
 
-## 4. Define terms at first occurrence（生僻词首次出现即解释）
+## 4. Explain a concept the first time — don't just define it（首次出现要"讲透"，不是"一句带过"）
 
-The first time any jargon, acronym, or project-specific name appears, define it
-immediately in the sentence or the one following — a reader must never hit a term and
-have to search for its meaning. Each first-occurrence definition is also a glossary
-entry (the book editor compiles these). If a term was defined in an earlier chapter,
-don't redefine it — a brief parenthetical reminder or a "see Chapter N" reference is
-right. The ledger tells you which terms are already introduced; consult it, and never
-use a term no earlier chapter (or your own chapter, earlier on the page) has defined.
+Defining a term in one dense sentence is **not** teaching it. The single most common way this
+book fails a reader is a first-occurrence "definition" that stacks several unfamiliar ideas into
+one clause: the reader stalls on that sentence, and because everything after it depends on it,
+the rest of the section collapses too. A murky prerequisite doesn't stay local — it cascades.
+Prevent this with a hard rule.
+
+**Every load-bearing concept, the first time it appears, gets its own explanatory beat — not a
+buried inline clause.** The beat runs in this order:
+
+1. **Plain-language intuition** — say what it is using only words a newcomer already knows. No
+   new jargon in this move.
+2. **A concrete example you can hold in your head** — a specific small case, tiny numbers, or a
+   familiar situation made concrete. Every non-obvious concept gets one; "abstract statement,
+   no example" is a defect, not a style choice.
+3. **The precise definition**, and only then **how this book/repo uses it**.
+
+Rules that make the beat land:
+
+- **One new idea per sentence.** Never introduce a term by leaning on two or three *other* terms
+  the reader also doesn't know. If a concept is best understood by contrast ("X is not A, it's
+  B"), give A and B each its own sentence and its own concrete image — don't compress the
+  contrast into one line.
+- **The most load-bearing concepts get their own short sub-section with a heading**, not a
+  sentence — especially prerequisites later chapters build on. Clarity compounds: make the
+  foundational concept crystal clear and everything downstream can be clear too.
+- **The restate test.** After the beat, ask: could a reader who did *not* already know this
+  concept now restate it in their own words and reproduce the example? If not, the beat is too
+  terse — expand it. Write for *that* reader, never for one who already gets it.
+- Minor/peripheral terms a reader surely knows can still be handled in a quick inline gloss;
+  reserve the full beat for concepts that are non-obvious or load-bearing. Every first-occurrence
+  explanation is also a glossary entry. If a term was defined earlier, don't re-teach it — a
+  brief reminder + "see Chapter N" is right (consult the ledger; never use a term no earlier
+  chapter or earlier passage has explained).
+
+**Worked example of the standard — this difference is the whole point:**
+
+*Too terse (a real failure — do NOT write like this):*
+> "A distributed representation is the idea that a concept is represented not by a single
+> dedicated unit ('grandmother cell') but by a pattern of activity spread across many units, and
+> conversely that each unit participates in representing many concepts."
+
+That one sentence makes the reader swallow *grandmother cell*, *pattern across units*, and *each
+unit in many concepts* all at once, with no example. Rewrite it as a beat:
+
+*Right (a dedicated beat, one idea at a time, with a concrete example):*
+> **How does a network store one idea?** Picture a layer of just three neurons and ask how it
+> could represent the concept "dog."
+> - **One option — a dedicated neuron.** Neuron 1 fires *only* for "dog," nothing else. People
+>   nickname this a "grandmother cell": as if one single neuron lit up only when you saw your
+>   grandmother. Simple, but wasteful — three neurons could then store only three concepts.
+> - **The other option — a pattern.** "Dog" is stored as a *combination* across all three: say
+>   neuron 1 fully on, neuron 2 half on, neuron 3 off — the pattern (1.0, 0.5, 0). No single
+>   neuron *is* "the dog neuron"; the *pattern* is.
+>
+> This second option is a **distributed representation**. Two consequences follow, and we'll use
+> both. First, one concept is spread over many neurons. Second — the mirror image — one neuron
+> helps represent many concepts: neuron 2 might be half-on for "dog," fully on for "wolf," a
+> third on for "loyal." So you can't read a network one neuron at a time and expect each to mean
+> one thing. *(That is the seed of superposition, Chapter 4.)*
+
+The good version uses a question, a concrete 3-neuron example with real numbers, one option per
+bullet, names the term only *after* the picture exists, then unpacks the consequences one at a
+time. **That is the bar for every load-bearing concept in the book.**
 
 ## 5. Textbook, not cheatsheet（是教科书，不是速查表）
 

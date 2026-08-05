@@ -298,7 +298,11 @@ Then go to Phase 2. (The dossier's grounding mode is **sources**.)
 
 Draft `<output-dir>/_notes/plan.md` containing:
 
-1. **Audience & prerequisites** — who the reader is, what they're assumed to know.
+1. **Audience & prerequisites** — who the reader is, what they're assumed to know. Default
+   mental model (pedagogy §0): write for a **motivated beginner** and progressively grow them
+   into an advanced reader — guarantee a beginner can follow every step, and deepen in stages.
+   State the genuine floor (the few things truly assumed) as narrowly as possible; everything
+   above that floor is taught, with an example, before it is used.
 2. **Language** of the book (English / 中文 / mixed).
 3. **Grounding mode** — `repo` or `sources` (from Phase 1); every writing agent is told
    which, so it uses the right citation form.
@@ -428,7 +432,13 @@ After each chapter is written, run a `pedagogy-reviewer` agent on it (told the s
 grounding mode *and* detail level, so it spot-checks the right kind of evidence and
 calibrates its depth checks — it must not fail a deliberately `concise` chapter for lacking
 exhaustive walkthroughs). The reviewer returns a
-findings list (violations of the pedagogy contract). If there are findings, send the
+findings list (violations of the pedagogy contract). **A first-class part of that review is a
+beginner read-through (pedagogy §0/§4): the reviewer reads the chapter as the motivated
+beginner it is written for and flags every sentence a newcomer could not follow on first read —
+in particular any load-bearing concept introduced without its own explanatory beat + concrete
+example, any sentence that stacks two or more not-yet-explained terms, and any place where
+understanding depends on something not yet taught. Those are MAJOR findings, because a murky
+prerequisite cascades.** If there are findings, send the
 chapter back to a `chapter-writer` in revise mode with the findings. One review→revise
 round per chapter by default; escalate to the user only if a chapter fails review twice.
 
