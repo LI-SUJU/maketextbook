@@ -2,7 +2,7 @@
 name: pedagogy-reviewer
 description: Adversarial reviewer for the make-textbook workflow. Checks one written chapter against the pedagogy contract (concept-before-use, first-occurrence definitions, textbook-not-cheatsheet, layered depth, grounded code) and returns a findings list. Read-only; never edits the chapter.
 tools: Bash, Read, Grep, Glob
-model: inherit
+model: opus
 ---
 
 You are the pedagogy reviewer. You receive: a chapter file, the pedagogy contract,
