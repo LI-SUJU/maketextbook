@@ -42,8 +42,15 @@ something on this list, the grant is missing — add the specific form to `setti
 
 - **Reading code/sources:** use the **Read / Grep / Glob** tools (not Bash `cat`/`sed`/`awk`)
   and **WebFetch / WebSearch** for the web. These don't prompt on external paths.
+- **Bash `grep`** (any flags, including the `/usr/bin/grep` absolute-path form some agents
+  emit) is pre-approved for mechanical self-checks. **`awk` and `python3` one-liners are NOT
+  allowlisted** — they are interpreters, so a wildcard grant would amount to arbitrary code
+  execution. Agents verify arithmetic by hand in prose and do text surgery with `grep`/`cut`/
+  `jq` (auto-allowed) instead; if a one-liner is truly unavoidable, expect one prompt.
 - **git:** `clone`, `fetch`, `add`, `commit`, `push`, `pull`, `mv`, `-C`, `log`, `blame`,
-  `shortlog`, `checkout`, `branch`, `merge`, `remote`, `worktree` (read-only forms).
+  `shortlog`, `checkout`, `branch`, `merge`, `remote`, `worktree` (read-only forms) — plus
+  every read-only git/gh subcommand (`status`, `diff`, `show`, …), which Claude Code
+  auto-allows with no entry needed.
 - **gh:** `gh auth`, `gh repo`, `gh pr`, `gh api` — create/clone the output repo, push books.
 - **curl:** `curl -L` — only the `figure-ingest` agent uses it, to fetch page HTML and
   download useful figure images into the book's `assets/figures/`.

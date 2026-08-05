@@ -24,6 +24,8 @@
       "Bash(gh pr *)",
       "Bash(gh api *)",
       "Bash(find *)",
+      "Bash(grep *)",
+      "Bash(/usr/bin/grep *)",
       "Bash(curl -L *)",
       "Bash(curl -sL *)",
       "Bash(curl -s *)",
