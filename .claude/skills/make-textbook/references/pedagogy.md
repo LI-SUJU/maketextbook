@@ -214,6 +214,16 @@ rules:
   out" are banned unless the showing is on the page or the skip is explicitly marked and
   safe ("optional: verify that …"). A derivation either shows every rung or names the ones
   it omits.
+- **State the point before the proof（先讲要证什么，再动手证）.** A derivation is not taught
+  by its algebra. Before the manipulation: say in plain words what question it answers and
+  what each possible outcome would mean. After it: cash the result back into that question in
+  one sentence. Then apply the **so-what test** (the compute test's sibling): could the reader
+  now state, in one sentence, what was just established and why it matters? Algebra whose
+  steps all verify but whose point the reader cannot state is a *magician's proof* — it
+  convinces without teaching, and a reviewer who only checks the steps will wrongly pass it.
+  And if the argument uses a *move* the reader has never seen — a symmetry/invariance test, an
+  exchange argument, a proof by compensation — the move itself is a concept: name it and
+  explain how the trick works before performing it.
 - **Numbers carry their meaning.** Every reported quantitative result says, in words the
   reader has, what it measures, what its scale is, and what a good vs. bad value looks like.
   "Recovers 79% of the loss reduction" means nothing until the reader knows 79% *of what,

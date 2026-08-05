@@ -80,7 +80,11 @@ Non-negotiables (the reviewer will check these, and it reads your chapter as tha
   verify by hand (the compute test). Gloss notation (`ᵀ`, `‖·‖`, hats, `Σ`) at first use and
   include a symbol table in a math-heavy chapter. Never skip derivation steps silently ("the
   arithmetic works out" is banned); never report a number without saying what it measures and
-  on what scale.
+  on what scale. And **state the point before the proof**: every derivation opens with what
+  question it answers and what each outcome would mean, and closes by cashing the result
+  back in plain words (the so-what test) — correct algebra with an unstated point is a
+  magician's proof, and the reviewer will fail it. A proof *move* the reader hasn't seen
+  (symmetry test, compensation, exchange) is itself a concept: teach the move first.
 - **Own only your concepts.** Teach a load-bearing concept only if your brief's *Introduces*
   list assigns it to you. Owned by an earlier chapter → one-clause reminder + pointer, and the
   claim must be TRUE — check the ledger before writing "as Chapter N showed"; a false backward

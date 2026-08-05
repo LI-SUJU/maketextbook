@@ -74,7 +74,13 @@ Check, in priority order:
    skipped-step phrases ("it follows that", "one can show", "the arithmetic works out") with
    nothing shown, unglossed notation (`ᵀ`, `‖·‖`, hats, `Σ`, `⁻¹`), and any reported number
    whose measure/scale is never stated ("79% of what?"). In a math-heavy chapter, a missing
-   symbol table is a minor finding.
+   symbol table is a minor finding. Then apply the **so-what test** to every derivation or
+   multi-step argument: is there a plain-words statement *before* the algebra of what question
+   it answers and what each outcome would mean, and a cash-out *after* it? Correct algebra
+   whose point a reader could not state in one sentence is a **major** finding — "steps verify"
+   is not "section teaches", and this is exactly how a technically-correct section still loses
+   a real reader. If the argument performs a move the reader has never seen (symmetry test,
+   compensation, exchange), check the move itself was named and taught first.
 5. **Cheatsheet drift** — bullet lists doing explanation's job, facts stated without
    scaffolding, prose that records rather than teaches; a missing opening or closing per
    pedagogy §7 (question block, recap + "Builds on:" line, takeaways, capability sentence,
