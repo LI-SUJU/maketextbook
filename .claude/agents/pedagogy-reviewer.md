@@ -77,7 +77,10 @@ Check, in priority order:
    skipped-step phrases ("it follows that", "one can show", "the arithmetic works out") with
    nothing shown, unglossed notation (`ᵀ`, `‖·‖`, hats, `Σ`, `⁻¹`), and any reported number
    whose measure/scale is never stated ("79% of what?"). In a math-heavy chapter, a missing
-   symbol table is a minor finding. Then apply the **so-what test** to every derivation or
+   symbol table is a minor finding. Typesetting: math must be LaTeX in `$...$`/`$$...$$`
+   (pedagogy §4a) — flag Unicode pseudo-math in backticks (`` `WᵀW` ``, `` `fᵢ` ``) as minor
+   (one summary finding if pervasive), and code spans used for math (or math mode used for
+   code identifiers) as the same. Then apply the **so-what test** to every derivation or
    multi-step argument: is there a plain-words statement *before* the algebra of what question
    it answers and what each outcome would mean, and a cash-out *after* it? Correct algebra
    whose point a reader could not state in one sentence is a **major** finding — "steps verify"

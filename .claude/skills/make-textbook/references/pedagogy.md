@@ -239,6 +239,32 @@ rules:
   "Recovers 79% of the loss reduction" means nothing until the reader knows 79% *of what,
   measured how*.
 
+### Typesetting: math is written in LaTeX（数学排版约定）
+
+GitHub-flavored Markdown renders LaTeX math natively, so the book's math is written as real
+LaTeX, not as Unicode pseudo-math in code spans:
+
+- **Inline math in `$...$`, display math in `$$...$$`.** Write `$W^\top W$`, not `` `WᵀW` ``;
+  `$f_i$`, `$d_i$`, not `` `fᵢ` ``; `$\|x\|$`, `$\hat{W}_i$`, `$x \in \mathbb{R}^n$`,
+  `$\sum_i f_i d_i$`. Unicode superscript/subscript pseudo-math in backticks is banned — this
+  rule exists to replace it.
+- **Derivations** use `$$\begin{aligned} … \end{aligned}$$`, with `\text{…}` for short step
+  annotations. When a derivation teaches better with heavy per-line prose annotations (the
+  annotated-cancellation style), an aligned code fence remains legal — choose whichever
+  teaches better, but restate the *result* equation in `$$...$$` either way.
+- **Code spans are for code.** Identifiers that exist in a repo or a listing (`lm_head`,
+  `W_dec`, `method="pca_center"`) stay in backticks — they are code, not math. The same
+  object may legitimately appear both ways ( `$W_U$` in prose, `lm_head` when quoting the
+  implementation); say once that they name the same thing.
+- **Symbol tables** render each symbol in math mode, so the table shows what the prose shows.
+- **Rendering pitfalls:** escape currency dollars (`\$100`) anywhere near math; inside
+  Markdown tables avoid `|` within math (use `\vert`) or keep cells to simple `$...$`; don't
+  pad the inside of `$...$` with spaces.
+- **Why this convention:** it reads properly on GitHub today, stays grep-able as plain text
+  (`\top` and `f_i` are searchable; the mechanical review checks still work), and exports
+  losslessly — pandoc → LaTeX/PDF treats `$...$` as native math, so a typeset PDF is one
+  command away without changing the source format.
+
 ## 5. Textbook, not cheatsheet（是教科书，不是速查表）
 
 Write in flowing, connected prose. Paragraphs carry the argument; transitions carry the

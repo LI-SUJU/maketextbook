@@ -41,7 +41,10 @@ Read every chapter in order, then:
    (token, logit, softmax, …), not just the field's own coinages. Diff the ledger's
    introduced-terms lists against the glossary and fill the gaps. Open with a **Notation**
    section compiled from the chapters' symbol tables (every symbol/convention the book
-   uses, one line each).
+   uses, one line each, symbols rendered in `$...$` math mode). Also check math-typesetting
+   consistency book-wide (pedagogy §4a): math in `$...$`/`$$...$$` LaTeX, code spans for
+   code identifiers only — fix stray Unicode pseudo-math yourself where mechanical, report
+   it if pervasive.
 4b. **`references.md` (sources mode only)** — compile the full bibliography from the
    dossier as **clickable entries**: for each source, the title itself is the link, e.g.
    `[S3] [Paper title](https://…) — author/venue, date` (seed `[S#]` also noting its

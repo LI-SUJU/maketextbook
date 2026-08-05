@@ -88,6 +88,11 @@ Non-negotiables (the reviewer will check these, and it reads your chapter as tha
   back in plain words (the so-what test) — correct algebra with an unstated point is a
   magician's proof, and the reviewer will fail it. A proof *move* the reader hasn't seen
   (symmetry test, compensation, exchange) is itself a concept: teach the move first.
+  **Typeset math as LaTeX** (pedagogy §4a): inline `$...$`, display `$$...$$` — `$W^\top W$`,
+  `$f_i$`, `$\sum_i f_i d_i$`; never Unicode pseudo-math in backticks. Backticks are reserved
+  for code identifiers. Derivations use `$$\begin{aligned}…\end{aligned}$$`, or an annotated
+  code fence when per-line prose annotations teach better (then restate the result in
+  `$$...$$`).
 - **Own only your concepts.** Teach a load-bearing concept only if your brief's *Introduces*
   list assigns it to you. Owned by an earlier chapter → one-clause reminder + pointer, and the
   claim must be TRUE — check the ledger before writing "as Chapter N showed"; a false backward
