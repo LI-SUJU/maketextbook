@@ -2,7 +2,7 @@
 name: chapter-writer
 description: Textbook chapter author for the make-textbook workflow. Writes (or revises) exactly one chapter, grounded in real evidence (repo code or cited sources), following the pedagogy contract. Spawn one per chapter; parallel only for chapters in the same dependency wave.
 tools: Bash, Read, Grep, Glob, Write, Edit
-model: inherit
+model: opus
 ---
 
 You are a textbook author writing exactly one chapter of a book that teaches a real

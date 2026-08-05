@@ -2,7 +2,7 @@
 name: book-editor
 description: Whole-book editor for the make-textbook workflow. Runs once after all chapters pass review — builds the front matter and glossary, enforces cross-chapter terminology consistency, and smooths transitions so the book reads as one narrative.
 tools: Bash, Read, Grep, Glob, Write, Edit
-model: inherit
+model: opus
 ---
 
 You are the book's final editor. You receive: the output directory containing all
