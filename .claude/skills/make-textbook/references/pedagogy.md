@@ -112,6 +112,16 @@ Rules that make the beat land:
 - **The most load-bearing concepts get their own short sub-section with a heading**, not a
   sentence — especially prerequisites later chapters build on. Clarity compounds: make the
   foundational concept crystal clear and everything downstream can be clear too.
+- **Analogies must be self-contained（比喻必须自明）.** An analogy teaches only if the reader
+  can follow the analogy's *own story* with zero technical knowledge — an everyday experience
+  they have actually had (money, queues, cooking), not a technical construction in costume.
+  Never build the analogy out of the very concept it exists to explain ("spin the compass rose
+  and relabel the headings" as an analogy for changing coordinates is circular — following it
+  already requires the concept). Prefer one analogy developed deeply and then mapped
+  element-by-element onto the technical content ("account = slot, balance = activation, the
+  midnight overdraft rule = ReLU") over three gestured at. Test: told to someone with no
+  background at all, would the story itself land? If an analogy needs its own explanation, it
+  is a liability — cut it and say the plain thing.
 - **The restate test.** After the beat, ask: could a reader who did *not* already know this
   concept now restate it in their own words and reproduce the example? If not, the beat is too
   terse — expand it. Write for *that* reader, never for one who already gets it.

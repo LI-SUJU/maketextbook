@@ -65,7 +65,10 @@ Non-negotiables (the reviewer will check these, and it reads your chapter as tha
   sentence; if a concept is best shown by contrast, give each side its own sentence and its own
   example. The most load-bearing concepts (prerequisites later chapters build on) get their own
   short headed sub-section. **A term "defined" in one dense jargon-packed sentence with no
-  example is a defect, not a style choice.** Apply the restate test: could a newcomer now restate
+  example is a defect, not a style choice.** Analogies must be **self-contained**: an everyday
+  story the reader could follow with zero background, mapped element-by-element onto the
+  technical content — never built from the concept it explains, and one deep analogy beats
+  three gestured at. Apply the restate test: could a newcomer now restate
   the concept in their own words and reproduce the example? If not, expand the beat. (Minor terms
   a reader surely knows can still get a quick inline gloss.)
 - **Pick the right register for every first occurrence (pedagogy §4).** Full beat for concepts

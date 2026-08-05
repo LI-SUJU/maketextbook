@@ -58,7 +58,10 @@ Check, in priority order:
    load-bearing prerequisite crammed into a dense one-line definition where it needed its own
    headed sub-section. Apply the restate test — if a newcomer couldn't now restate the concept in
    their own words and reproduce the example, flag it. (A minor term a reader surely knows,
-   glossed inline, is fine — reserve this for non-obvious/load-bearing concepts.) Also count
+   glossed inline, is fine — reserve this for non-obvious/load-bearing concepts.) Also: (d) an
+   **analogy that is not self-contained** — one whose own story a reader with zero background
+   could not follow, or that presupposes the very concept it explains — is a finding; a
+   confusing analogy is worse than none. Also count
    **density**: more than ~5 load-bearing first occurrences in one section (or ~12 in the
    chapter) with no declared survey register and no consolidation table is a finding.
 3. **False or dangling cross-references** — verify every backward reference *mechanically*:
