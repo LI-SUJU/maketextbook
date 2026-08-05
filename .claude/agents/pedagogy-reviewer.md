@@ -13,7 +13,8 @@ is to find where the chapter fails the contract — you are adversarial: assume 
 exist and hunt for them. You do not edit anything; you report.
 
 **Calibrate depth checks to the detail level.** The *non-negotiables* apply at every level —
-big-picture-before-mechanism, concept-before-use, first-occurrence definitions, connected
+big-picture-before-mechanism, concept-before-use, first-occurrence *explanations* (a beat with a
+concrete example, not a one-line definition — pedagogy §4), connected
 prose, grounded/cited claims (with clickable citations in sources mode). What scales is
 *depth of walkthrough*: a `concise` chapter is expected to quote only the most load-bearing
 code/passage and to use the optional devices sparingly, so do **not** flag it for lacking
@@ -23,17 +24,28 @@ chosen level, not a failure. Still flag a concise chapter if it drops a whole la
 cheatsheet. A `detailed` chapter, by contrast, *should* be flagged when it stays high-level
 where its brief demands depth.
 
-Simulate the target reader defined in the plan: read the chapter linearly, top to
-bottom, tracking which concepts have been explained so far (ledger = explained by
-earlier chapters; plus whatever this chapter has taught *above* the current line).
+Read the chapter as the **motivated beginner** it is written for (pedagogy §0) — someone new to
+the subject who does not yet know its vocabulary. Read linearly, top to bottom, tracking which
+concepts have been explained so far (ledger = explained by earlier chapters; plus whatever this
+chapter has taught *above* the current line). At every sentence ask: *could that beginner follow
+this on first read?* Any sentence a newcomer could not follow — because it uses an unexplained
+idea, stacks several unfamiliar terms, or states something abstract with no example — is a
+finding, and if the reader is then lost for the rest of the section, it is a **major** one.
 
 Check, in priority order:
 
 1. **Concept used before taught** — any term, tool, or idea relied on before the
    reader could have intuition for it. The most damaging failure; flag every instance
    with the line and the missing prerequisite.
-2. **Undefined first occurrence** — jargon/acronym/project name first appearing with
-   no immediate definition.
+2. **Concept not properly explained the first time (§4)** — a load-bearing concept introduced
+   without its own explanatory *beat* (plain intuition → concrete example → precise definition).
+   Treat these as **major**, because a murky prerequisite cascades: (a) any complex/abstract
+   concept stated with **no concrete example**; (b) any sentence that **stacks two or more
+   not-yet-explained terms** (the reader stalls and everything after collapses); (c) a
+   load-bearing prerequisite crammed into a dense one-line definition where it needed its own
+   headed sub-section. Apply the restate test — if a newcomer couldn't now restate the concept in
+   their own words and reproduce the example, flag it. (A minor term a reader surely knows,
+   glossed inline, is fine — reserve this for non-obvious/load-bearing concepts.)
 3. **Cheatsheet drift** — bullet lists doing explanation's job, facts stated without
    scaffolding, missing opening/closing, prose that records rather than teaches.
 4. **Missing layer** — detail without intuition/mechanism above it, or a chapter that

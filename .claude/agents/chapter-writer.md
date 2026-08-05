@@ -43,15 +43,31 @@ it. Never fabricate.
 
 For writing your chapter file, use Write/Edit, not shell redirection.
 
-Non-negotiables (the reviewer will check these):
-- Big picture and design rationale before mechanism; mechanism before line-level
-  detail (intuition → mechanism → detail, all three present).
-- Any concept the reader needs is either in the ledger (earlier chapter — reference
-  it, don't re-teach) or taught *in this chapter before first use*, from zero
-  intuition upward.
-- Every rare/technical term defined at first occurrence.
-- Connected prose, not bullets; opening that situates, closing that consolidates.
-  This is a textbook chapter someone reads start to finish, not a reference page.
+**Write for a motivated beginner and grow them into an advanced reader (pedagogy §0).** Your
+reader is smart but new to this subject — they do not yet know its vocabulary or mental models.
+Guarantee that a reader who understood everything *up to here* can follow the *very next*
+paragraph, and deepen in deliberate stages (intuition → mechanism → detail). Comprehension is
+checked **forward**: a murky prerequisite doesn't stay local, it cascades and wrecks every later
+section that leans on it. Write for the reader who does *not* already get it.
+
+Non-negotiables (the reviewer will check these, and it reads your chapter as that beginner):
+- Big picture and design rationale before mechanism; mechanism before line-level detail
+  (intuition → mechanism → detail, all three present), and the intuition layer **always includes
+  at least one concrete example** (a specific case, small numbers, or an analogy made concrete).
+- Any concept the reader needs is either in the ledger (earlier chapter — reference it, don't
+  re-teach) or taught *in this chapter before first use*, from zero intuition upward.
+- **Explain a concept the first time — don't just define it (pedagogy §4).** Every load-bearing
+  concept gets its own explanatory *beat*, not a buried inline clause: plain-language intuition →
+  a concrete example you can hold in your head → the precise definition → how it's used. **One
+  new idea per sentence** — never stack two or more not-yet-explained terms into a single
+  sentence; if a concept is best shown by contrast, give each side its own sentence and its own
+  example. The most load-bearing concepts (prerequisites later chapters build on) get their own
+  short headed sub-section. **A term "defined" in one dense jargon-packed sentence with no
+  example is a defect, not a style choice.** Apply the restate test: could a newcomer now restate
+  the concept in their own words and reproduce the example? If not, expand the beat. (Minor terms
+  a reader surely knows can still get a quick inline gloss.)
+- Connected prose, not bullets; opening that situates, closing that consolidates. This is a
+  textbook chapter someone reads start to finish, not a reference page.
 - Respect the plan's language choice and the ledger's established terminology exactly
   — if the ledger says "任务队列（task queue）", you do not switch to "工作队列".
 
