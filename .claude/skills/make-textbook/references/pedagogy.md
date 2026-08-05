@@ -22,6 +22,24 @@ commitments follow, and they **govern every other rule below**:
    open at the expert's altitude and strand the beginner; never stay at the beginner's altitude
    and starve the advanced reader. Climb — one secure rung at a time.
 
+**The floor is explicit, and it is written down.** "Beginner" never means "knows nothing": the
+book plan states, as a short named list, exactly what the reader is assumed to already know —
+the **assumed-known floor**（读者已知底线）, e.g. "high-school algebra; can read Python" or
+"linear algebra and gradients". Everything on that list may be used without a full lesson;
+everything above it must be taught before use, *no matter how routine it feels to an expert*.
+Two consequences:
+
+- A mathematical operation or background idea **above the floor** (transpose, dot product,
+  softmax, eigenvalue, variance, …) is itself a load-bearing concept and gets the full §4
+  treatment. A writer can hold the beginner-first standard perfectly for the subject's own
+  ideas while silently assuming a math course — that is exactly the failure this rule exists
+  to prevent.
+- Floor items are assumed *rusty*, not fresh: where a floor item does load-bearing work at a
+  specific spot, give it a **refresher box** (§4's second register) there, not a full beat.
+
+The floor is stated once for the reader (preface/README) and handed verbatim to every writing
+and reviewing agent; every "could the beginner follow this?" check is asked *relative to it*.
+
 Everything below — big-picture-first, layered depth, explain-before-define, concept-before-use —
 is machinery for these two commitments. When in doubt, ask: *"Could the beginner I'm growing
 follow this — and did it move them one rung up?"*
@@ -133,6 +151,74 @@ The good version uses a question, a concrete 3-neuron example with real numbers,
 bullet, names the term only *after* the picture exists, then unpacks the consequences one at a
 time. **That is the bar for every load-bearing concept in the book.**
 
+### The four registers — and when each is legal（四个档位）
+
+Every technical term's first occurrence is handled in exactly one of four registers. Choosing
+the register is an editorial decision, not a shortcut:
+
+1. **Full beat** (above) — for any non-obvious, load-bearing concept this chapter owns.
+2. **Refresher box** — for a concept on the assumed-known floor (§0) that does load-bearing
+   work *here*: a short quoted box, 1–3 sentences, that reactivates rather than teaches, and
+   ends by cashing the concept into this chapter's use of it (the "so…" clause):
+
+   > **Refresher — eigenvalue:** a matrix's eigenvector is a direction it doesn't rotate, only
+   > stretches; the stretch factor is the eigenvalue. So an OV eigenvalue near +1 means the
+   > head writes back almost exactly what it read — it copies.
+
+   Twenty seconds for the prepared reader, a saved section for the rusty one.
+3. **Inline gloss** — one clause in passing, only for minor/peripheral terms that carry no
+   weight later.
+4. **Forward promise** — the *only* legal way to mention a concept a later chapter owns:
+   "Chapter N develops X in full; for now, read it as ⟨one-clause placeholder intuition⟩."
+   A later-chapter term used early without its promise is a defect: it tells the reader they
+   missed a rung that was never built. (Consult the plan's concept-ownership: owned downstream
+   → wear the promise; owned upstream → a one-clause reminder + "see Chapter N".)
+
+**Bold marks definitions, nothing else.** Bold a term exactly where the book defines it (beat,
+refresher, or gloss) and never for emphasis — then "bolded somewhere above this line" and
+"safe to use" mean the same thing, for the reader and for the reviewer. Use italics for
+emphasis.
+
+**New-concept density budget.** A section that introduces more than ~5 load-bearing concepts —
+or a chapter beyond ~12 — is overloaded even if every individual beat is perfect: cognitive
+load compounds. Either split the material, or (for a genuine survey/field-guide chapter the
+plan calls for) *declare the register to the reader* in the opening ("this chapter is a field
+guide — hold the shape, not every name") and consolidate with a mid-chapter summary table.
+The reader must never discover halfway through that the rules changed.
+
+## 4a. Mathematics: an equation is a concept（公式也要讲透）
+
+Everything §4 demands for concepts applies to mathematics, where the failure mode is quieter:
+a formula can be *stated* in a way that looks like teaching but locks the beginner out. Hard
+rules:
+
+- **The equation beat.** Every displayed equation, loss, or formal definition gets:
+  (a) every symbol defined at or before first use; (b) a term-by-term prose walk — what each
+  piece is, what it does, why it is there; (c) a **small-numbers instantiation** the reader
+  can verify by hand ("suppose x = (1, 0) and W = [1, −1]: then h = 1·1 + (−1)·0 = 1 …").
+  An equation stated but never instantiated is an unfinished beat.
+- **The compute test** (the restate test for math): could the reader now evaluate this
+  equation on a 2–3-number example using only what the book has given them? If no passage
+  enables that, the equation is not yet taught.
+- **One running instance across the layers.** Carry a single tiny example from the intuition
+  layer into the formal layer, so the reader watches the formula reproduce the case they
+  already believe. Never let the analogy and the math live in separate worlds — if the
+  intuition was "interference is rare when features are sparse" and the formula is `WᵀW`,
+  push the same two-feature example through `WᵀW` on the page.
+- **Notation is vocabulary.** The first use of any symbol or notational convention — `ᵀ`,
+  `‖·‖`, a hat, `Σ`, `⁻¹`, `∈ ℝⁿ` — gets a gloss, exactly like a term. A math-heavy chapter
+  carries a small **symbol table** (at first use, or as a boxed table the chapter points to),
+  and the book's glossary compiles a notation section. Never point the reader at internal
+  artifacts ("the ledger's notation") — the reader cannot see them.
+- **No silently skipped steps.** "It follows that", "one can show", "the arithmetic works
+  out" are banned unless the showing is on the page or the skip is explicitly marked and
+  safe ("optional: verify that …"). A derivation either shows every rung or names the ones
+  it omits.
+- **Numbers carry their meaning.** Every reported quantitative result says, in words the
+  reader has, what it measures, what its scale is, and what a good vs. bad value looks like.
+  "Recovers 79% of the loss reduction" means nothing until the reader knows 79% *of what,
+  measured how*.
+
 ## 5. Textbook, not cheatsheet（是教科书，不是速查表）
 
 Write in flowing, connected prose. Paragraphs carry the argument; transitions carry the
@@ -205,8 +291,18 @@ Every chapter carries this skeleton (the flesh varies):
   问题 / This chapter answers:" — listing 3–5 concrete questions. This is the chapter's
   contract with the reader; every question must actually be answered by the end. Follow
   it with a paragraph situating the chapter in the book's arc.
+- **Recap and prerequisites.** Next, a short recap move reactivating the earlier-chapter
+  concepts this chapter leans on — one clause each plus a chapter pointer, never a re-teach —
+  and a one-line "**Builds on:**" list naming those prerequisites explicitly, so a reader
+  arriving by a shortcut route knows exactly what to backfill. Backward references must be
+  *true*: never write "as Chapter N showed" unless Chapter N actually taught it (check the
+  ledger). A false "you already know this" is worse than no reference — the reader concludes
+  they forgot a rung that was never built.
 - **Closing consolidation**: a 要点/takeaways list that compresses the chapter (this is
-  the one place bullet points are the right form); 思考题/exercises *if the plan opted
+  the one place bullet points are the right form); a **capability sentence** — one line
+  naming what the reader can now *do* that they couldn't before ("you can now read an SAE
+  loss and say what each term buys"), so the book's staircase is visible rung by rung;
+  思考题/exercises *if the plan opted
   in* — transfer questions ("如果让你来设计…") with hints, not recall quizzes; and a
   **sources table** mapping each topic taught to its authority — the file(s) in the repo
   (`path` level) in repo mode, or the cited source/finding (`[S#]`/`[R#]`, rendered as the
@@ -214,6 +310,13 @@ Every chapter carries this skeleton (the flesh varies):
   law: state explicitly that when book and
   evidence disagree, the evidence wins — the code in repo mode, the cited source in
   sources mode. This keeps the book honest as the material evolves.
+- **Forward handoff.** Every chapter except the last closes by naming what question remains
+  and which chapter takes it up. When the *next* chapter deliberately drops in difficulty
+  (a new Part restarting from a lower base), say so — "the next Part needs only the toolkit
+  of Chapter 5; the climb restarts lower". A signposted descent reads as a designed breather;
+  an unsignposted one reads as a lurch. And on reuse: a concept from an earlier chapter gets
+  at most one clause plus the chapter pointer — anything longer must announce itself as a
+  deliberate restatement ("worth stating once more, in the language we can now use").
 
 ## 8. Devices that earn their place（值得用的写作装置）
 
@@ -298,3 +401,8 @@ uncertainty. Zero filler ("in this section we will…" is fine once as an openin
 not as padding). Humor is welcome when it serves memory; cleverness that obscures is
 not. If the book's language is Chinese, keep established English technical terms in
 English with a Chinese gloss at first occurrence (e.g. "事件循环（event loop）").
+
+**No production leaks.** Reader-facing prose never references the book's production
+apparatus — the plan, the dossier, the ledger, agent names, or bracketed research notes
+("[R26 context; …]"). Those live in `_notes/`. If a sentence needs their content, say it in
+the book's own voice ("this book fixes the notation…", not "the ledger fixes the notation…").

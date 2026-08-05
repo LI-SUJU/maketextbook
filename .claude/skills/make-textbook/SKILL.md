@@ -302,7 +302,13 @@ Draft `<output-dir>/_notes/plan.md` containing:
    mental model (pedagogy §0): write for a **motivated beginner** and progressively grow them
    into an advanced reader — guarantee a beginner can follow every step, and deepen in stages.
    State the genuine floor (the few things truly assumed) as narrowly as possible; everything
-   above that floor is taught, with an example, before it is used.
+   above that floor is taught, with an example, before it is used. **Write the floor down as a
+   short named list in the plan — the assumed-known floor** — because it is passed verbatim to
+   every chapter-writer and pedagogy-reviewer as the calibration for every "could the beginner
+   follow this?" check, and it appears to the reader in the preface. Math counts: if linear
+   algebra is not on the floor, then transpose, dot products, and eigenvalues must be taught
+   like any other concept (pedagogy §4a); floor items still get refresher boxes where they do
+   load-bearing work.
 2. **Language** of the book (English / 中文 / mixed).
 3. **Grounding mode** — `repo` or `sources` (from Phase 1); every writing agent is told
    which, so it uses the right citation form.
@@ -315,7 +321,11 @@ Draft `<output-dir>/_notes/plan.md` containing:
    `[S#]`/`[R#]` in sources mode), and the concepts it *introduces* vs. *requires* (from
    earlier chapters).
 6. **Concept dependency order** — show that every concept is introduced before any chapter
-   uses it. This ordering drives the chapter sequence.
+   uses it. This ordering drives the chapter sequence. **Ownership is exclusive:** every
+   must-teach concept is assigned to exactly one owning chapter's *introduces* list. Writers
+   may not teach a concept they don't own (a forward promise or a reminder + pointer instead
+   — pedagogy §4's registers); exclusive ownership is what keeps parallel waves and shortcut
+   reading routes coherent.
 7. **Depth calibration** — which areas get detailed walkthroughs (line-level code in repo
    mode; close reading of a source's argument/derivation in sources mode) vs. an
    architectural/overview treatment, and why.
@@ -419,6 +429,7 @@ returned ledger entries before starting the next wave.
 
 Each `chapter-writer` gets: the pedagogy guide path, the **grounding mode** (`repo` or
 `sources`), the **detail level** (`concise` / 精简 or `detailed` / 详细, from the plan), the
+**assumed-known floor** (copied inline from the plan's audience section), the
 dossier path, the plan path, the current ledger path, its chapter brief (copied inline from
 the plan), the output file path (`<output-dir>/NN-slug.md`), **its chapter's figures** (the
 relevant `figures.md` rows plus the matching figure cards — saved path, alt text, caption,
@@ -429,7 +440,8 @@ mode cites `[S#]`/`[R#]` keyed to the bibliography, rendered as clickable `[[S#]
 links. Neither invents.
 
 After each chapter is written, run a `pedagogy-reviewer` agent on it (told the same
-grounding mode *and* detail level, so it spot-checks the right kind of evidence and
+grounding mode, detail level, *and* assumed-known floor, so it spot-checks the right kind of
+evidence and
 calibrates its depth checks — it must not fail a deliberately `concise` chapter for lacking
 exhaustive walkthroughs). The reviewer returns a
 findings list (violations of the pedagogy contract). **A first-class part of that review is a
@@ -441,21 +453,40 @@ understanding depends on something not yet taught. Those are MAJOR findings, bec
 prerequisite cascades.** If there are findings, send the
 chapter back to a `chapter-writer` in revise mode with the findings. One review→revise
 round per chapter by default; escalate to the user only if a chapter fails review twice.
+A PASS may carry minor findings — collect these across all chapters and hand the batch to
+the `book-editor` in Phase 4 (it fixes formatting-level ones and reports the rest). Minor
+findings must never silently die.
 
 Pipeline, don't barrier: a chapter can be under review while the next wave's chapters are
 being written, as long as ledger ordering is respected.
 
+Waves legitimately let a chapter be written before an earlier-*numbered* chapter it doesn't
+depend on is finished. Before Phase 4, give every such out-of-order chapter a quick
+**backreference audit** against the finished ledger — its references to chapters finalized
+*after* it are the likeliest to be false ("you already know this from Chapter 5" about a rung
+Chapter 5 never built). Cheap (Grep + ledger check, foldable into the editor's brief), and it
+catches the worst staircase failure mode.
+
 ## Phase 4 — Assemble the book
 
 Spawn a single `book-editor` agent over the whole output directory (told the grounding
-mode) to:
+mode, the assumed-known floor, and the batched minor findings from Phase 3 reviews) to:
 - write `README.md` (title, how-to-read-this-book guide, table of contents with chapter
-  one-liners), a preface, and `glossary.md` compiled from first-occurrence definitions;
+  one-liners — **reading routes dependency-checked** against the plan's requires-graph,
+  with explicit patches where a route skips a prerequisite), a preface (stating the
+  assumed-known floor), and `glossary.md` compiled from first-occurrence definitions —
+  background vocabulary included, opening with a Notation section;
 - in **sources mode**, also compile `references.md` — the full bibliography from the
   dossier (`[S#]` seed sources with `_sources/` paths, `[R#]` research sources with URLs),
   and verify that every `[S#]`/`[R#]` cited in a chapter resolves to an entry;
-- enforce terminology consistency and add cross-references ("as we saw in Chapter 3…");
-- smooth chapter transitions so the book reads as one narrative, not stapled essays;
+- enforce terminology consistency and add cross-references ("as we saw in Chapter 3…"),
+  verifying every backward reference against the ledger (a false "as Chapter N showed" is
+  a substantive issue), and run the **leak scan** (no "the plan"/"the dossier"/"the
+  ledger"/bracket research notes in reader-facing prose) and the **gap audit** (assumed
+  background used vs. floor + earlier ledger entries);
+- smooth chapter transitions so the book reads as one narrative, not stapled essays —
+  including part-level bridges at Part boundaries, with designed difficulty descents
+  signposted;
 - verify **figures**: every embedded `![](assets/figures/…)` points at a file that exists,
   carries alt text and a source line, and is referenced from the prose (no floating figures
   or orphan image files); figure numbers run consistently; `assets/CREDITS.md` lists every
@@ -494,11 +525,12 @@ artifacts unlock — keep `_notes/` (and, uncommitted, `_sources/`) to make thes
 - either way, `_notes/` can be deleted if they want a clean publish, but deleting it means a
   future deepen/revise re-does the survey or research.
 
-## Phase E — Deepen an existing book (精简 → 详细, or expand coverage)
+## Phase E — Deepen an existing book (精简 → 详细, expand coverage, or repair readability)
 
 Entered when the user wants **more** from a book an earlier run produced — most often "the
-精简版 was good, now make it detailed", but also "go deeper on chapter 5" or "add a chapter
-on X". The whole point is **reuse**: the expensive survey/research already happened and lives
+精简版 was good, now make it detailed", but also "go deeper on chapter 5", "add a chapter
+on X", or **"第 5 章看不懂" / "I couldn't follow the part about X"** (readability repair).
+The whole point is **reuse**: the expensive survey/research already happened and lives
 in `_notes/`, so you do not redo it.
 
 1. **Locate the book and its artifacts.** Find the book directory (from the path/title the
@@ -511,8 +543,13 @@ in `_notes/`, so you do not redo it.
    every chapter concise → detailed; (b) **selective deepen** — only named chapters; (c)
    **new chapters** — extend coverage (this may need a little targeted research: spawn
    `researcher`/`repo-scout` for just the new material and merge into the existing dossier,
-   not a full re-survey). Update `plan.md`'s detail-level field to `detailed` for the
-   affected chapters.
+   not a full re-survey); (d) **readability repair** — the reader reports a place they
+   couldn't follow: diagnose against pedagogy §0/§4/§4a (a missing beat or refresher, a
+   false backreference, an equation with no compute-test path, an above-floor assumption),
+   then fix the *rungs* — insert the missing beat at the true first occurrence, correct the
+   backreferences and the ledger — rather than deepening everything; more explanation at the
+   same altitude, not more depth. Update `plan.md`'s detail-level field to `detailed` for
+   chapters deepened under (a)/(b).
 3. **Deepen the chapters.** For each chapter in scope, spawn a `chapter-writer` in **Deepen
    mode** (grow the existing file in place, preserving structure/terminology/citations),
    giving it the same inputs as Phase 3 plus the existing chapter path. If deepening calls
