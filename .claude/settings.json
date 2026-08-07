@@ -30,11 +30,16 @@
       "Bash(curl -sL *)",
       "Bash(curl -s *)",
       "Bash(curl -fsSL *)",
+      "Bash(sed -n *)",
+      "Bash(base64 *)",
+      "Bash(mkdir -p *)",
+      "Bash(cp * /Users/lisuju/Documents/research_repo/ai_generated_textbooks/*)",
       "WebSearch",
       "WebFetch"
     ],
     "additionalDirectories": [
-      "../ai_generated_textbooks"
+      "../ai_generated_textbooks",
+      "/Users/lisuju/Documents/research_repo/ai_generated_textbooks"
     ]
   }
 }

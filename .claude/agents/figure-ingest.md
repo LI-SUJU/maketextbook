@@ -40,7 +40,26 @@ Resolve the source to an actual image file, in this order of preference:
   figure image as above. If the figure exists only inside a PDF and you cannot extract it,
   **do not fabricate one**: report that it needs a redraw or a text-link instead, and stop.
 
-Name the saved file `F<N>-<short-slug>.<ext>`. Use Bash only for `curl`/`cp`/`grep` here.
+- **A base64-inline image** (some pages, e.g. transformer-circuits.pub, embed figures as
+  `<img src='data:image/png;base64,...'>` directly in the HTML) → extract it with this exact
+  recipe, using only these commands (they are pre-approved; anything else will interrupt the
+  user with a permission prompt):
+  1. `curl -L -o "$SCRATCH/page.html" "<page-url>"` — save the page to your scratchpad.
+  2. `grep -n "data:image" "$SCRATCH/page.html"` — find the start line of each embedded
+     image; use surrounding text (`grep -n -B2` on nearby captions) to pick the right one.
+  3. `grep -n "' /></figure>" "$SCRATCH/page.html"` — find candidate end lines; choose the
+     first end line after your start line by reading the numbers (no `awk` — pipe through
+     `cut -d: -f1` and pick by eye if needed).
+  4. `sed -n '<start>,<end>p' "$SCRATCH/page.html" | sed -e 's/^.*base64,//' -e "s/' \/><\/figure>.*$//" | tr -d '\n' | base64 -d > <assets>/F<N>-<slug>.png`
+  5. `file <assets>/F<N>-<slug>.png` — confirm it decoded to a real image.
+
+Name the saved file `F<N>-<short-slug>.<ext>`.
+
+**Shell discipline:** the only Bash commands you may use are `curl`, `cp`, `grep`, `cut`,
+`sed -n`, `tr`, `base64`, `mkdir -p`, `file`, `ls`, `head`, `tail`, `wc`. Never use `awk`,
+`python`/`python3`, `perl`, or any other interpreter — they are not allowlisted and each use
+interrupts the user with a permission prompt. Any arithmetic or line-number comparison you
+need, do in your head from `grep -n` output.
 If a download fails (404, blocked, hotlink-protected), retry once with a different URL form
 (raw host, `https`, a mirror via WebSearch); if it still fails, report the failure and
 recommend redraw-or-text-link rather than leaving a broken reference.
