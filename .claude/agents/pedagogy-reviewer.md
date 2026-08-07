@@ -80,7 +80,10 @@ Check, in priority order:
    symbol table is a minor finding. Typesetting: math must be LaTeX in `$...$`/`$$...$$`
    (pedagogy §4a) — flag Unicode pseudo-math in backticks (`` `WᵀW` ``, `` `fᵢ` ``) as minor
    (one summary finding if pervasive), and code spans used for math (or math mode used for
-   code identifiers) as the same. Then apply the **so-what test** to every derivation or
+   code identifiers) as the same. **GitHub KaTeX allowlist:** grep for `\operatorname` (and
+   `\def`/`\newcommand`/`\href`/`\label`/`\tag`) — GitHub renders these as a red "macros are not
+   allowed" box, not math, so any occurrence is a MAJOR finding (a formula that doesn't render);
+   the fix is `\mathrm{…}` for named operators. Then apply the **so-what test** to every derivation or
    multi-step argument: is there a plain-words statement *before* the algebra of what question
    it answers and what each outcome would mean, and a cash-out *after* it? Correct algebra
    whose point a reader could not state in one sentence is a **major** finding — "steps verify"

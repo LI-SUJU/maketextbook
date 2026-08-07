@@ -92,7 +92,10 @@ Non-negotiables (the reviewer will check these, and it reads your chapter as tha
   `$f_i$`, `$\sum_i f_i d_i$`; never Unicode pseudo-math in backticks. Backticks are reserved
   for code identifiers. Derivations use `$$\begin{aligned}…\end{aligned}$$`, or an annotated
   code fence when per-line prose annotations teach better (then restate the result in
-  `$$...$$`).
+  `$$...$$`). **GitHub blocks `\operatorname` and other macros** — write named operators as
+  `$\mathrm{ReLU}(z)=\max(0,z)$`, never `$\operatorname{ReLU}(...)$`; avoid `\def`/`\newcommand`/
+  `\href`/`\label`/`\tag` too (a blocked macro renders as a red "macros are not allowed" box, not
+  math). See pedagogy §4a "GitHub's KaTeX macro allowlist."
 - **Own only your concepts.** Teach a load-bearing concept only if your brief's *Introduces*
   list assigns it to you. Owned by an earlier chapter → one-clause reminder + pointer, and the
   claim must be TRUE — check the ledger before writing "as Chapter N showed"; a false backward

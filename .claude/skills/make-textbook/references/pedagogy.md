@@ -260,6 +260,17 @@ LaTeX, not as Unicode pseudo-math in code spans:
 - **Rendering pitfalls:** escape currency dollars (`\$100`) anywhere near math; inside
   Markdown tables avoid `|` within math (use `\vert`) or keep cells to simple `$...$`; don't
   pad the inside of `$...$` with spaces.
+- **GitHub's KaTeX macro allowlist (load-bearing — a blocked macro breaks the whole formula).**
+  GitHub renders `$…$`/`$$…$$` with a *restricted* KaTeX macro set; a disallowed macro renders as
+  a red **"The following macros are not allowed: …"** box instead of the math. The one that bites
+  most often is **`\operatorname` — it is blocked**; write named operators with `\mathrm{…}` (or
+  `\text{…}`), which render identically and are allowed: `$\mathrm{ReLU}(z) = \max(0, z)$`, **not**
+  `$\operatorname{ReLU}(z) = \max(0, z)$`; likewise `$\mathrm{TopK}$`, `$\mathrm{softmax}$`,
+  `$\mathrm{argmax}$`. Also avoid the macro-*defining* commands (`\def`, `\newcommand`, `\gdef`,
+  `\providecommand`, `\let`) and `\href`, `\label`, `\tag`, `\require`, `\includegraphics` — all
+  blocked. Stay within core symbols plus `\mathrm`, `\text`, `\mathbb`, `\hat`, `\|`, `\sum`,
+  `\max`, `\cdot`, `\approx`, `\begin{aligned}`. Mechanical self-check: `grep -n
+  '\\operatorname\|\\newcommand\|\\def\|\\href' *.md` should come back empty.
 - **Why this convention:** it reads properly on GitHub today, stays grep-able as plain text
   (`\top` and `f_i` are searchable; the mechanical review checks still work), and exports
   losslessly — pandoc → LaTeX/PDF treats `$...$` as native math, so a typeset PDF is one

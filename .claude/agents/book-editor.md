@@ -44,7 +44,11 @@ Read every chapter in order, then:
    uses, one line each, symbols rendered in `$...$` math mode). Also check math-typesetting
    consistency book-wide (pedagogy §4a): math in `$...$`/`$$...$$` LaTeX, code spans for
    code identifiers only — fix stray Unicode pseudo-math yourself where mechanical, report
-   it if pervasive.
+   it if pervasive. **GitHub KaTeX allowlist — last line of defense:** grep the whole book for
+   `\operatorname` and macro-definers (`\def`/`\newcommand`/`\gdef`/`\href`/`\label`/`\tag`/
+   `\require`) and fix them yourself (`\operatorname{X}` → `\mathrm{X}`) — GitHub renders any of
+   these as a red "macros are not allowed" box instead of the formula. This must come back empty:
+   `grep -rn '\\operatorname\|\\newcommand\|\\def ' *.md`.
 4b. **`references.md` (sources mode only)** — compile the full bibliography from the
    dossier as **clickable entries**: for each source, the title itself is the link, e.g.
    `[S3] [Paper title](https://…) — author/venue, date` (seed `[S#]` also noting its
